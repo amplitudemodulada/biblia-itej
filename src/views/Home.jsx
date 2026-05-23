@@ -1,15 +1,14 @@
 import { useMemo } from 'react'
 import { Book, Sparkles, BookOpen, BarChart3, Flame, Star, ChevronRight, Download } from 'lucide-react'
-import { BIBLE_DATA } from '../data/bibleData'
 
-export default function Home({ progress, bookmarks, onStartReading, onShowDashboard, onSelectChapter, onContinueReading }) {
+export default function Home({ bibleData, progress, bookmarks, onStartReading, onShowDashboard, onSelectChapter, onContinueReading }) {
   const dailyReflection = useMemo(() => {
     const today = new Date().toISOString().split('T')[0]
     let hash = 0
     for (let i = 0; i < today.length; i++) { hash = ((hash << 5) - hash) + today.charCodeAt(i); hash |= 0 }
     const idx = Math.abs(hash) % 1189
     let counter = 0
-    for (const book of BIBLE_DATA) {
+    for (const book of bibleData) {
       for (const ch of book.chapters) {
         if (counter === idx) {
           return { book: book.name, chapter: ch.number, title: ch.title, text: ch.reflection }
@@ -23,7 +22,7 @@ export default function Home({ progress, bookmarks, onStartReading, onShowDashbo
   const stats = useMemo(() => {
     let completed = 0
     let total = 0
-    BIBLE_DATA.forEach(book => {
+    bibleData.forEach(book => {
       book.chapters.forEach(ch => {
         total++
         if (progress.completed[`${book.id}-${ch.number}`]) completed++
@@ -57,7 +56,7 @@ export default function Home({ progress, bookmarks, onStartReading, onShowDashbo
     const parts = key.split('-')
     const bookId = parts.slice(0, -1).join('-')
     const chNum = parseInt(parts[parts.length - 1])
-    const book = BIBLE_DATA.find(b => b.id === bookId)
+    const book = bibleData.find(b => b.id === bookId)
     return book ? { book: book.name, chapter: chNum } : null
   }, [progress])
 
@@ -113,7 +112,7 @@ export default function Home({ progress, bookmarks, onStartReading, onShowDashbo
                <div>
                  <h3 className="text-sm font-medium text-slate-800 dark:text-slate-200 mb-0.5">1. Leitura passo a passo</h3>
                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                   O objetivo é ler toda a Bíblia (versão NTLH) um capítulo por vez. Cada capítulo tem reflexão, quiz e até leitura por áudio.
+                    O objetivo é ler toda a Bíblia um capítulo por vez. Cada capítulo tem reflexão, quiz e até leitura por áudio.
                  </p>
                </div>
              </div>
@@ -201,7 +200,7 @@ export default function Home({ progress, bookmarks, onStartReading, onShowDashbo
                 const parts = key.split('-')
                 const bkId = parts.slice(0, -1).join('-')
                 const chNum = parseInt(parts[parts.length - 1])
-                const bk = BIBLE_DATA.find(b => b.id === bkId)
+                const bk = bibleData.find(b => b.id === bkId)
                 if (!bk) return null
                 return (
                   <button

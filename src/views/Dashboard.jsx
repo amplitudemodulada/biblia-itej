@@ -1,12 +1,11 @@
 import { useMemo } from 'react'
 import { Trophy, Target, Flame } from 'lucide-react'
-import { BIBLE_DATA } from '../data/bibleData'
 
-export default function Dashboard({ progress }) {
+export default function Dashboard({ bibleData, progress }) {
   const stats = useMemo(() => {
     let completed = 0
     let total = 0
-    BIBLE_DATA.forEach(book => {
+    bibleData.forEach(book => {
       book.chapters.forEach(ch => {
         total++
         if (progress.completed[`${book.id}-${ch.number}`]) completed++
@@ -83,7 +82,7 @@ export default function Dashboard({ progress }) {
       <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-5">
         <h3 className="font-semibold text-slate-800 dark:text-slate-100 mb-4">Progresso por Livro</h3>
         <div className="space-y-3">
-          {BIBLE_DATA.map(book => {
+          {bibleData.map(book => {
             const completed = book.chapters.filter(c => progress.completed[`${book.id}-${c.number}`]).length
             const pct = book.totalChapters > 0 ? Math.round((completed / book.totalChapters) * 100) : 0
             return (

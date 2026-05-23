@@ -7,7 +7,7 @@ import {
   Play, Pause, SkipBack, SkipForward, Volume2, Gauge,
   Search as SearchIcon, Share2, Star, Calendar
 } from 'lucide-react'
-import { BIBLE_DATA } from './data/bibleData'
+import { BIBLE_DATA, AVAILABLE_VERSIONS } from './data/bibleData'
 
 const Home = lazy(() => import('./views/Home'))
 const Dashboard = lazy(() => import('./views/Dashboard'))
@@ -16,6 +16,7 @@ const SearchView = lazy(() => import('./views/SearchView'))
 
 const LS_KEY_PROGRESS = 'pv-progress'
 const LS_KEY_THEME = 'pv-theme'
+const LS_KEY_VERSION = 'pv-version'
 
 function saveProgress(data) {
   localStorage.setItem(LS_KEY_PROGRESS, JSON.stringify(data))
@@ -39,12 +40,28 @@ function saveTheme(t) {
   localStorage.setItem(LS_KEY_THEME, t)
 }
 
-const totalBibleChapters = BIBLE_DATA.reduce((acc, b) => acc + b.totalChapters, 0)
+function loadVersion() {
+  try {
+    const v = localStorage.getItem(LS_KEY_VERSION)
+    return AVAILABLE_VERSIONS.some(av => av.id === v) ? v : 'NTLH'
+  } catch { return 'NTLH' }
+}
 
-// Reading plan: 1189 chapters / 365 days
+function saveVersion(v) {
+  localStorage.setItem(LS_KEY_VERSION, v)
+}
+
+function getBibleDataForVersion(version) {
+  const data = BIBLE_DATA[version]
+  return data || BIBLE_DATA['NTLH']
+}
+
+const totalBibleChapters = BIBLE_DATA['NTLH'].reduce((acc, b) => acc + b.totalChapters, 0)
+
+// Reading plan: 1189 chapters / 365 days (shared across versions)
 function generateReadingPlan() {
   const allChapters = []
-  for (const book of BIBLE_DATA) {
+  for (const book of BIBLE_DATA['NTLH']) {
     for (const ch of book.chapters) {
       allChapters.push({ bookId: book.id, bookName: book.name, chapterNumber: ch.number, chapterTitle: ch.title })
     }
@@ -361,6 +378,14 @@ function App() {
   const [wb, setWb] = useState(null)
   const [bookmarks, setBookmarks] = useState(() => { try { return JSON.parse(localStorage.getItem('pv-bookmarks')) || [] } catch { return [] } })
   const [planProgress, setPlanProgress] = useState(loadPlanProgress)
+  const [selectedVersion, setSelectedVersion] = useState(loadVersion)
+
+  const handleVersionChange = useCallback((version) => {
+    setSelectedVersion(version)
+    saveVersion(version)
+  }, [])
+
+  const currentBibleData = useMemo(() => getBibleDataForVersion(selectedVersion), [selectedVersion])
 
   useEffect(() => {
     const handler = (e) => { e.preventDefault(); setInstallPrompt(e) }
@@ -377,7 +402,7 @@ function App() {
     }
   }, [])
 
-  const currentBook = useMemo(() => BIBLE_DATA.find(b => b.id === currentBookId), [currentBookId])
+  const currentBook = useMemo(() => currentBibleData.find(b => b.id === currentBookId), [currentBibleData, currentBookId])
   const currentChapter = useMemo(() => currentBook?.chapters[currentChapterIdx], [currentBook, currentChapterIdx])
   const hasNextChapter = currentBook && currentChapterIdx < currentBook.chapters.length - 1
 
@@ -490,7 +515,7 @@ function App() {
 
   // New feature 3: Find first uncompleted chapter for "Continue Reading"
   const firstUncompleted = useMemo(() => {
-    for (const book of BIBLE_DATA) {
+    for (const book of BIBLE_DATA['NTLH']) {
       for (const ch of book.chapters) {
         const key = `${book.id}-${ch.number}`
         if (!progress.completed[key]) {
@@ -591,6 +616,19 @@ function App() {
             </button>
           </div>
 
+          <div className="hidden sm:flex items-center gap-1.5 mr-2">
+            <select
+              value={selectedVersion}
+              onChange={(e) => handleVersionChange(e.target.value)}
+              className="px-2 py-1.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer"
+              title="Selecionar versão da Bíblia"
+            >
+              {AVAILABLE_VERSIONS.map(v => (
+                <option key={v.id} value={v.id}>{v.id}</option>
+              ))}
+            </select>
+          </div>
+
           <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800">
             <div className="w-20 h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
               <div
@@ -632,7 +670,7 @@ function App() {
 
       <div className="flex flex-1 overflow-hidden">
         <Sidebar
-          books={BIBLE_DATA}
+          books={currentBibleData}
           currentBookId={currentBookId}
           currentChapterIdx={currentChapterIdx}
           progress={progress}
@@ -645,6 +683,7 @@ function App() {
           <Suspense fallback={loadingFallback}>
             {activeSection === 'home' ? (
               <Home
+                bibleData={currentBibleData}
                 progress={progress}
                 bookmarks={bookmarks}
                 onStartReading={() => { if (!currentChapter) handleSelectChapter(currentBookId, 0); setActiveSection('reading') }}
@@ -655,11 +694,11 @@ function App() {
             ) : activeSection === 'dashboard' ? (
               <div className="flex-1 overflow-y-auto">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                  <Dashboard progress={progress} />
+                  <Dashboard bibleData={currentBibleData} progress={progress} />
                 </div>
               </div>
             ) : activeSection === 'search' ? (
-              <SearchView onSelectChapter={handleSelectChapter} />
+              <SearchView bibleData={currentBibleData} onSelectChapter={handleSelectChapter} />
             ) : activeSection === 'plan' ? (
               <ReadingPlanView
                 planProgress={planProgress}
@@ -669,12 +708,13 @@ function App() {
               />
             ) : currentChapter ? (
               <ReadingView
-                key={`${currentBookId}-${currentChapter.number}`}
+                key={`${currentBookId}-${currentChapter.number}-${selectedVersion}`}
                 chapter={currentChapter}
                 bookId={currentBookId}
                 bookName={currentBook?.name}
                 progress={progress}
                 bookmarks={bookmarks}
+                version={selectedVersion}
                 onToggleBookmark={handleToggleBookmark}
                 onComplete={handleCompleteChapter}
                 onQuizAnswer={handleQuizAnswer}

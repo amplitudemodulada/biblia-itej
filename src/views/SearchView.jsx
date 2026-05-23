@@ -1,8 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Search as SearchIcon, BookOpen, ChevronDown } from 'lucide-react'
-import { BIBLE_DATA } from '../data/bibleData'
 
-export default function SearchView({ onSelectChapter }) {
+export default function SearchView({ bibleData, onSelectChapter }) {
   const [query, setQuery] = useState('')
   const [expandedResults, setExpandedResults] = useState({})
 
@@ -10,7 +9,7 @@ export default function SearchView({ onSelectChapter }) {
     const q = query.trim().toLowerCase()
     if (!q || q.length < 2) return []
     const out = []
-    for (const book of BIBLE_DATA) {
+    for (const book of bibleData) {
       const matches = []
       for (const ch of book.chapters) {
         const fields = [ch.title, ch.text, ch.reflection, ...(ch.verses || [])]
