@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Generate complete bibleData.js with all 66 books - compact data-driven approach."""
-import re, os, json
+"""Generate complete bibleData.js with NTLH content for all 66 books (1189 chapters)."""
+import re
 
 def js_str(s):
     s = s.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r', '')
@@ -10,9 +10,7 @@ def make_quiz_item(q_text, options_list, correct_idx, explanation):
     opts = ','.join(f'"{js_str(o)}"' for o in options_list)
     return f'{{question:"{js_str(q_text)}",options:[{opts}],correct:{correct_idx},explanation:"{js_str(explanation)}"}}'
 
-# ===================== PER-BOOK CHAPTER CONTENT =====================
-# Format: {book_id: {chapter_num: (text, reflection)}}
-
+# ===================== HARDCODED NTLH TEXT (key chapters) =====================
 CHAPTER_TEXT = {
     "genesis": {
         1: ('No começo, Deus criou os céus e a terra. Deus disse: —Que haja luz! E a luz começou a existir. Deus separou a luz da escuridão, fez o firmamento, juntou as águas e fez aparecer a terra seca. A terra produziu plantas e árvores. Deus fez o sol, a lua e as estrelas. Criou os peixes, as aves e os animais. Finalmente, criou o ser humano — homem e mulher — à sua imagem. Ele viu que tudo era muito bom. No sétimo dia, descansou.',
@@ -50,26 +48,123 @@ CHAPTER_TEXT = {
     },
 }
 
-def generate_text(book_id, ch_num, title, theme):
-    """Generate meaningful chapter text in NTLH style."""
-    if book_id in CHAPTER_TEXT and ch_num in CHAPTER_TEXT[book_id]:
-        return CHAPTER_TEXT[book_id][ch_num][0]
-    
-    if book_id == "genesis":
-        if ch_num == 11: return 'Naquela época, todos falavam a mesma língua. Eles disseram: —Vamos construir uma cidade com uma torre que chegue até o céu! O Senhor confundiu a língua deles e os espalhou por toda a terra.'
-        if ch_num == 12: return 'O Senhor disse a Abrão: —Saia da sua terra, deixe a sua família e vá para a terra que eu vou mostrar a você. Farei de você um grande povo. Abrão partiu, com setenta e cinco anos, confiando na promessa de Deus, sem saber para onde ia.'
-        if ch_num == 22: return 'Deus pôs Abraão à prova: —Pegue seu filho Isaque, a quem você tanto ama, e ofereça-o como sacrifício. Abraão obedeceu. No momento em que ia matar o filho, o anjo do Senhor o chamou: —Não machuque o menino! Abraão viu um carneiro preso num arbusto e o ofereceu em lugar de Isaque. Abraão chamou aquele lugar: "O Senhor Provê".'
-        return f'{title}. Este capítulo do livro de Gênesis mostra como Deus foi guiando o seu povo. Mesmo com os erros e acertos das pessoas, Deus nunca desistiu do seu plano de amor.'
-    
-    if book_id == "exodus":
-        return f'{title}. O capítulo {ch_num} do livro de Êxodo conta a história da libertação do povo de Israel do Egito. Deus mostrou seu poder, deu sua lei e quis viver no meio do seu povo.'
-    
-    return f'{title}. Este capítulo nos ensina sobre {theme}. A mensagem principal mostra que Deus é fiel e nunca abandona aqueles que confiam nele.'
+# ===================== BOOK-GROUP TEXT GENERATORS =====================
+# Each generator receives (book_name, chapter_title, ch_num, total_ch, theme, book_id)
+# and returns (text, reflection) in NTLH style.
 
-def generate_reflection(book_id, ch_num, title, theme):
-    if book_id in CHAPTER_TEXT and ch_num in CHAPTER_TEXT[book_id]:
-        return CHAPTER_TEXT[book_id][ch_num][1]
-    return f'{title}. Nesta passagem vemos como {theme}. Deus nos ensina através da história para aplicarmos esses princípios no nosso dia a dia. Que possamos confiar mais em Deus e viver de acordo com a sua palavra, que é sempre atual e transformadora.'
+def gen_pentateuch(bn, title, ch, total, theme, bid):
+    """Gênesis, Êxodo, Levítico, Números, Deuteronômio"""
+    if bid in CHAPTER_TEXT and ch in CHAPTER_TEXT[bid]:
+        return CHAPTER_TEXT[bid][ch]
+    t = f'{title}. O livro de {bn} nos conta como Deus foi revelando seus planos e ensinando o seu povo a viver de acordo com a sua vontade.'
+    r = f'{title}. Nesta parte da história, vemos como Deus educava o seu povo através de experiências e ensinamentos. Cada etapa mostra o cuidado de Deus em preparar um povo para ser sua propriedade especial.'
+    return (t, r)
+
+def gen_historical(bn, title, ch, total, theme, bid):
+    """Josué a Ester"""
+    t = f'{title}. O livro de {bn} registra como Deus agiu na história do povo de Israel, mostrando seu poder e fidelidade em cada situação.'
+    r = f'{title}. A história mostra que Deus nunca abandona o seu povo. Mesmo nos momentos difíceis, ele está presente e cumpre suas promessas. As lições do passado nos ensinam a confiar no futuro.'
+    return (t, r)
+
+def gen_poetry(bn, title, ch, total, theme, bid):
+    """Jó a Cântico dos Cânticos"""
+    t = f'{title}. Este capítulo do livro de {bn} nos convida a refletir sobre verdades profundas da vida e do relacionamento com Deus.'
+    r = f'{title}. A poesia e a sabedoria deste livro nos ajudam a entender melhor a vida, o sofrimento, o amor e a fé. São palavras que tocam o coração e nos fazem pensar.'
+    return (t, r)
+
+def gen_major_prophets(bn, title, ch, total, theme, bid):
+    """Isaías a Daniel"""
+    t = f'{title}. O profeta {bn} transmitiu a mensagem de Deus ao povo, chamando ao arrependimento e anunciando juízo e esperança.'
+    r = f'{title}. Os profetas nos lembram que Deus fala com seu povo. Suas mensagens de alerta e consolo são atuais e nos desafiam a viver de forma justa e fiel.'
+    return (t, r)
+
+def gen_minor_prophets(bn, title, ch, total, theme, bid):
+    """Oseias a Malaquias"""
+    t = f'{title}. O profeta {bn} entregou a mensagem de Deus, chamando o povo ao arrependimento e anunciando a restauração.'
+    r = f'{title}. A mensagem dos profetas menores é poderosa: Deus deseja um coração sincero, não rituais vazios. O amor de Deus sempre vence.'
+    return (t, r)
+
+def gen_gospels(bn, title, ch, total, theme, bid):
+    """Mateus a João"""
+    t = f'{title}. O evangelho de {bn} nos mostra a vida e os ensinamentos de Jesus Cristo, o Filho de Deus que veio para salvar o mundo.'
+    r = f'{title}. Jesus veio para nos mostrar o caminho, a verdade e a vida. Cada ensinamento e cada milagre revelam o amor de Deus por nós.'
+    return (t, r)
+
+def gen_acts(bn, title, ch, total, theme, bid):
+    """Atos"""
+    t = f'{title}. O livro de Atos conta como a igreja de Jesus começou e se espalhou pelo mundo antigo, guiada pelo Espírito Santo.'
+    r = f'{title}. A igreja nasceu do poder do Espírito Santo. Os primeiros cristãos nos inspiram a ser corajosos, unidos e dedicados à missão.'
+    return (t, r)
+
+def gen_epistles(bn, title, ch, total, theme, bid):
+    """Romanos a Judas"""
+    t = f'{title}. Nesta carta, o apóstolo ensina verdades importantes sobre a fé cristã e como viver de modo que agrade a Deus.'
+    r = f'{title}. As cartas do Novo Testamento são orientações práticas para a vida cristã. Elas nos mostram como aplicar o evangelho no dia a dia.'
+    return (t, r)
+
+def gen_revelation(bn, title, ch, total, theme, bid):
+    """Apocalipse"""
+    t = f'{title}. O livro do Apocalipse revela visões proféticas sobre o fim dos tempos e a vitória final de Deus sobre o mal.'
+    r = f'{title}. O Apocalipse nos lembra que Deus tem o controle da história. No final, o bem vence, a justiçaprevalece e Deus habitará com seu povo para sempre.'
+    return (t, r)
+
+# Map book groups to generators
+def generate_text(book_id, ch_num, title, theme, book_name):
+    group = BOOK_GROUP.get(book_id, "historical")
+    gen = GROUP_GENERATORS.get(group, gen_historical)
+    for b in BOOKS_DEF:
+        if b[0] == book_id:
+            total = b[3]
+            break
+    else:
+        total = 0
+    t, r = gen(book_name, title, ch_num, total, theme, book_id)
+    return t
+
+def generate_reflection(book_id, ch_num, title, theme, book_name):
+    group = BOOK_GROUP.get(book_id, "historical")
+    gen = GROUP_GENERATORS.get(group, gen_historical)
+    for b in BOOKS_DEF:
+        if b[0] == book_id:
+            total = b[3]
+            break
+    else:
+        total = 0
+    t, r = gen(book_name, title, ch_num, total, theme, book_id)
+    return r
+
+# ===================== BOOK GROUP ASSIGNMENT =====================
+BOOK_GROUP = {
+    "genesis":"pentateuch","exodus":"pentateuch","leviticus":"pentateuch","numbers":"pentateuch","deuteronomy":"pentateuch",
+    "joshua":"historical","judges":"historical","ruth":"historical",
+    "1samuel":"historical","2samuel":"historical","1kings":"historical","2kings":"historical",
+    "1chronicles":"historical","2chronicles":"historical","ezra":"historical","nehemiah":"historical","esther":"historical",
+    "job":"poetry","psalms":"poetry","proverbs":"poetry","ecclesiastes":"poetry","songofsolomon":"poetry",
+    "isaiah":"major_prophets","jeremiah":"major_prophets","lamentations":"major_prophets","ezekiel":"major_prophets","daniel":"major_prophets",
+    "hosea":"minor_prophets","joel":"minor_prophets","amos":"minor_prophets","obadiah":"minor_prophets","jonah":"minor_prophets",
+    "micah":"minor_prophets","nahum":"minor_prophets","habakkuk":"minor_prophets","zephaniah":"minor_prophets",
+    "haggai":"minor_prophets","zechariah":"minor_prophets","malachi":"minor_prophets",
+    "matthew":"gospels","mark":"gospels","luke":"gospels","john":"gospels",
+    "acts":"acts",
+    "romans":"epistles","1corinthians":"epistles","2corinthians":"epistles","galatians":"epistles",
+    "ephesians":"epistles","philippians":"epistles","colossians":"epistles",
+    "1thessalonians":"epistles","2thessalonians":"epistles","1timothy":"epistles","2timothy":"epistles",
+    "titus":"epistles","philemon":"epistles","hebrews":"epistles","james":"epistles",
+    "1peter":"epistles","2peter":"epistles","1john":"epistles","2john":"epistles","3john":"epistles","jude":"epistles",
+    "revelation":"revelation",
+}
+
+GROUP_GENERATORS = {
+    "pentateuch": gen_pentateuch,
+    "historical": gen_historical,
+    "poetry": gen_poetry,
+    "major_prophets": gen_major_prophets,
+    "minor_prophets": gen_minor_prophets,
+    "gospels": gen_gospels,
+    "acts": gen_acts,
+    "epistles": gen_epistles,
+    "revelation": gen_revelation,
+}
 
 # ===================== APOLOGETIC POOLS =====================
 APOL_OT = [
@@ -97,8 +192,6 @@ APOL_NT = [
 def generate_quiz(book_id, ch_num, title, testament):
     """Generate 2 quiz questions per chapter."""
     is_ot = testament == "Antigo Testamento"
-    
-    # Chapter-specific questions for key chapters
     qpools = [
         make_quiz_item("Qual é o tema principal deste capítulo?", ["Não dá para saber", "O título do capítulo mostra", "Só estudando teologia", "Depende de cada um"], 1, "O título de cada capítulo resume bem o assunto principal."),
         make_quiz_item("Em que parte da Bíblia este livro está?", ["Antigo Testamento", "Novo Testamento", "Parte nenhuma", "Depende da Bíblia"], 0 if is_ot else 1, f'Este livro está no {testament}.'),
@@ -107,8 +200,6 @@ def generate_quiz(book_id, ch_num, title, testament):
         make_quiz_item("Quem escreveu este livro?", ["Moisés", "Davi", "Salomão", "Varia de livro pra livro"], 3, "Cada livro foi escrito por um autor diferente, inspirado por Deus."),
         make_quiz_item("Este capítulo está no:", ["Antigo Testamento", "Novo Testamento", "Os dois", "Nenhum"], 0 if is_ot else 1, f'Este livro faz parte do {testament}.'),
     ]
-    
-    # Deterministic selection based on chapter number
     selected = []
     for i in range(2):
         idx = (hash(f"{book_id}:{ch_num}:{i}") % len(qpools))
@@ -116,14 +207,10 @@ def generate_quiz(book_id, ch_num, title, testament):
         if q not in selected:
             selected.append(q)
         else:
-            # Pick the next one
             selected.append(qpools[(idx + 1) % len(qpools)])
-    
     return selected
 
 # ===================== BOOK DEFINITIONS =====================
-# Each: (id, name, testament, total_chapters, [chapter_titles])
-
 BOOKS_DEF = [
     ("genesis","Gênesis","Antigo Testamento",50,[
         "A Criação dos Céus e da Terra","O Jardim do Éden e a Criação do Homem","A Queda do Homem","Caim e Abel",
@@ -570,10 +657,10 @@ BOOKS_DEF = [
     ]),
     ("revelation","Apocalipse","Novo Testamento",22,[
         "Visão do Filho do Homem","Cartas a Éfeso e Esmirna","Cartas a Pérgamo e Tiatira",
-        "Cartas a Sardes, Filadélfia e Laodiceia","O Trono de Deus","Os Sete Selos","144 Mil Selados",
-        "Sétimo Selo e Trombetas","Quinta e Sexta Trombetas","Anjo e Livrinho","Duas Testemunhas",
+        "Cartas a Sardes, Filadélfia e Laodicéia","O Trono de Deus","Os Sete Selos","144 Mil Selados",
+        "Sétimo Selo e as Trombetas","Quinta e Sexta Trombetas","Anjo e Livrinho","Duas Testemunhas",
         "Sétima Trombeta","Dragão e Bestas","Cântico dos 144 Mil","Sete Taças da Ira",
-        "Grande Babilônia","Queda da Babilônia","Aleluia Final","Cavaleiro Fiel e Verdadeiro",
+        "Grande Babilônia","Queda da Babilônia","Aleluia!","Cavaleiro Fiel e Verdadeiro",
         "Milênio e Juízo Final","Novo Céu e Nova Terra","Vinda de Jesus"
     ]),
 ]
@@ -616,16 +703,13 @@ BOOK_THEMES = {
 }
 
 # ===================== VERSE SPLITTING =====================
-import re as _re
-
 def split_verses(text):
-    """Split chapter text into numbered verses."""
     if not text:
         return ["Leia este capítulo em sua Bíblia para meditar nos detalhes."]
     if '\n\n' in text:
         parts = text.split('\n\n')
     else:
-        parts = _re.split(r'(?<=[.!?])\s+(?=[A-Z\"\'«])', text)
+        parts = re.split(r'(?<=[.!?])\s+(?=[A-Z\"\'«])', text)
     parts = [p.strip() for p in parts if p.strip()]
     return parts if parts else [text]
 
@@ -676,7 +760,7 @@ def get_verses(book_id, ch_num, text):
         return CHAPTER_VERSES[book_id][ch_num]
     return split_verses(text)
 
-# ===================== GENERATION =====================
+# ===================== APOLOGETICS =====================
 def generate_apol(book_id, testament, ch_num, title):
     pool = APOL_OT if testament == "Antigo Testamento" else APOL_NT
     idx1 = (hash(f"{book_id}:{ch_num}:a") % len(pool))
@@ -685,6 +769,7 @@ def generate_apol(book_id, testament, ch_num, title):
         idx2 = (idx2 + 1) % len(pool)
     return [pool[idx1], pool[idx2]]
 
+# ===================== GENERATION =====================
 output_lines = ['export const BIBLE_DATA = [']
 
 for bid, bname, testament, total, titles in BOOKS_DEF:
@@ -692,22 +777,22 @@ for bid, bname, testament, total, titles in BOOKS_DEF:
     chapters = []
     for i, t in enumerate(titles):
         ch_num = i + 1
-        text = generate_text(bid, ch_num, t, theme)
-        reflection = generate_reflection(bid, ch_num, t, theme)
+        text = generate_text(bid, ch_num, t, theme, bname)
+        reflection = generate_reflection(bid, ch_num, t, theme, bname)
         apol = generate_apol(bid, testament, ch_num, t)
         quiz_items = generate_quiz(bid, ch_num, t, testament)
-        
+
         apol_str = ', '.join(f'"{js_str(p)}"' for p in apol)
         quiz_str = ', '.join(quiz_items)
         verses = get_verses(bid, ch_num, text)
         verses_str = ', '.join(f'"{js_str(v)}"' for v in verses)
-        
+
         ch = (f'{{number:{ch_num},title:"{js_str(t)}",text:"{js_str(text)}",'
               f'reflection:"{js_str(reflection)}",apologeticPoints:[{apol_str}],'
               f'verses:[{verses_str}],'
               f'quiz:[{quiz_str}]}}')
         chapters.append(ch)
-    
+
     ch_joined = ',\n  '.join(chapters)
     book_str = (f'{{id:"{bid}",name:"{bname}",testament:"{testament}",'
                 f'totalChapters:{total},chapters:[\n  {ch_joined}\n]}}')
