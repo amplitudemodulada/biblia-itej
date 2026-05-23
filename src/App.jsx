@@ -1,9 +1,9 @@
 ﻿import { useState, useEffect, useMemo, useCallback } from 'react'
-import { useRegisterSW } from 'virtual:pwa-register/react'
+import { Workbox } from 'workbox-window'
 import {
   Menu, X, Sun, Moon, BookOpen, CheckCircle, BarChart3,
   ChevronLeft, ChevronRight, ChevronDown, Book, Sparkles,
-  Trophy, Target, Flame, RotateCcw
+  Trophy, Target, Flame, RotateCcw, Download
 } from 'lucide-react'
 import { BIBLE_DATA } from './data/bibleData'
 
@@ -542,11 +542,24 @@ function App() {
   const [currentBookId, setCurrentBookId] = useState('genesis')
   const [currentChapterIdx, setCurrentChapterIdx] = useState(0)
   const [showCompletionModal, setShowCompletionModal] = useState(false)
+  const [needRefresh, setNeedRefresh] = useState(false)
+  const [installPrompt, setInstallPrompt] = useState(null)
+  const [wb, setWb] = useState(null)
 
-  const {
-    needRefresh: [needRefresh],
-    updateServiceWorker,
-  } = useRegisterSW()
+  useEffect(() => {
+    const handler = (e) => { e.preventDefault(); setInstallPrompt(e) }
+    window.addEventListener('beforeinstallprompt', handler)
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      const wb = new Workbox('/sw.js')
+      wb.addEventListener('waiting', () => setNeedRefresh(true))
+      wb.register()
+      setWb(wb)
+    }
+  }, [])
 
   const currentBook = useMemo(() => BIBLE_DATA.find(b => b.id === currentBookId), [currentBookId])
   const currentChapter = useMemo(() => currentBook?.chapters[currentChapterIdx], [currentBook, currentChapterIdx])
@@ -667,6 +680,16 @@ function App() {
             </span>
           </div>
 
+          {installPrompt && (
+            <button
+              onClick={async () => { installPrompt.prompt(); const r = await installPrompt.userChoice; if (r.outcome === 'accepted') setInstallPrompt(null) }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium transition-colors"
+              title="Instalar aplicativo"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Instalar</span>
+            </button>
+          )}
           <button
             onClick={toggleTheme}
             className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors"
@@ -718,13 +741,13 @@ function App() {
           <p className="text-sm font-medium">Nova versão disponível</p>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => updateServiceWorker(true)}
+              onClick={() => { wb?.messageSkipWaiting(); window.location.reload() }}
               className="px-4 py-1.5 rounded-lg bg-white text-amber-700 text-sm font-semibold hover:bg-amber-50 transition-colors"
             >
               Atualizar
             </button>
             <button
-              onClick={() => updateServiceWorker(false)}
+              onClick={() => setNeedRefresh(false)}
               className="px-2 py-1.5 text-white/80 hover:text-white text-sm transition-colors"
             >
               Dispensar
