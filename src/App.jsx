@@ -14,6 +14,7 @@ const Dashboard = lazy(() => import('./views/Dashboard'))
 const ReadingView = lazy(() => import('./views/ReadingView'))
 const SearchView = lazy(() => import('./views/SearchView'))
 const GlossaryView = lazy(() => import('./views/GlossaryView'))
+const BiblicalNamesView = lazy(() => import('./views/BiblicalNamesView'))
 
 const LS_KEY_PROGRESS = 'pv-progress'
 const LS_KEY_THEME = 'pv-theme'
@@ -637,6 +638,13 @@ function App() {
               <Sparkles className="w-3.5 h-3.5" />
               Glossário
             </button>
+            <button
+              onClick={() => setActiveSection('biblical-names')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${activeSection === 'biblical-names' ? 'bg-white dark:bg-slate-700 text-amber-700 dark:text-amber-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+            >
+              <Star className="w-3.5 h-3.5" />
+              Nomes Bíblicos
+            </button>
           </div>
 
           <div className="hidden sm:flex items-center gap-1.5 mr-2">
@@ -731,6 +739,8 @@ function App() {
                 onSelectChapter={handleSelectChapter}
                 onGoToCurrentDay={() => setActiveSection('plan')}
               />
+            ) : activeSection === 'biblical-names' ? (
+              <BiblicalNamesView />
             ) : activeSection === 'glossary' ? (
               <GlossaryView />
             ) : currentChapter ? (
