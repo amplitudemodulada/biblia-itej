@@ -2,13 +2,23 @@
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import {
   Menu, X, Sun, Moon, BookOpen, CheckCircle, BarChart3,
-  ChevronLeft, ChevronRight, Book, Sparkles,
+  ChevronLeft, ChevronRight, ChevronDown, Book, Sparkles,
   Trophy, Target, Flame, RotateCcw
 } from 'lucide-react'
 import { BIBLE_DATA } from './data/bibleData'
 
+const LS_KEY_PROGRESS = 'pv-progress'
+const LS_KEY_THEME = 'pv-theme'
+
 function saveProgress(data) {
   localStorage.setItem(LS_KEY_PROGRESS, JSON.stringify(data))
+}
+
+function loadProgress() {
+  try {
+    const d = localStorage.getItem(LS_KEY_PROGRESS)
+    return d ? JSON.parse(d) : { completed: {}, quiz: {}, answered: {} }
+  } catch { return { completed: {}, quiz: {}, answered: {} } }
 }
 
 function loadTheme() {
