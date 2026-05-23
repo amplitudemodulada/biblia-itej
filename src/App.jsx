@@ -268,7 +268,7 @@ function ReadingPlanView({ planProgress, onToggleDay, onSelectChapter, onGoToCur
   )
 }
 
-function Sidebar({ books, currentBookId, currentChapterIdx, progress, onSelectChapter, onClose, isOpen }) {
+function Sidebar({ books, currentBookId, currentChapterIdx, progress, onSelectChapter, onClose, isOpen, selectedVersion, onVersionChange }) {
   const [expandedBook, setExpandedBook] = useState(currentBookId)
   const [search, setSearch] = useState('')
 
@@ -359,6 +359,21 @@ function Sidebar({ books, currentBookId, currentChapterIdx, progress, onSelectCh
               </div>
             )
           })}
+        </div>
+        <div className="border-t border-slate-200 dark:border-slate-700 p-3">
+          <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">
+            Versão da Bíblia
+          </label>
+          <select
+            value={selectedVersion}
+            onChange={(e) => onVersionChange(e.target.value)}
+            className="w-full px-2 py-2 rounded-lg text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer"
+            title="Selecionar versão da Bíblia"
+          >
+            {AVAILABLE_VERSIONS.map(v => (
+              <option key={v.id} value={v.id}>{v.id}</option>
+            ))}
+          </select>
         </div>
       </aside>
     </>
@@ -677,6 +692,8 @@ function App() {
           onSelectChapter={handleSelectChapter}
           onClose={() => setSidebarOpen(false)}
           isOpen={sidebarOpen}
+          selectedVersion={selectedVersion}
+          onVersionChange={handleVersionChange}
         />
 
         <main className="flex-1 flex flex-col overflow-hidden" ref={mainRef} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
