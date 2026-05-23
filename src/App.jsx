@@ -400,6 +400,7 @@ function ReadingView({ chapter, bookId, bookName, progress, onComplete, onQuizAn
             <span>{bookName}</span>
             <span className="text-slate-300 dark:text-slate-600">•</span>
             <span>Capítulo {chapter.number}</span>
+            <span className="px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-[10px] font-semibold uppercase tracking-wide">NTLH</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-6">{chapter.title}</h1>
           

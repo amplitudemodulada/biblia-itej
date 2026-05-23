@@ -15,86 +15,83 @@ def make_quiz_item(q_text, options_list, correct_idx, explanation):
 
 CHAPTER_TEXT = {
     "genesis": {
-        1: ('No princípio, criou Deus os céus e a terra. Disse Deus: Haja luz. E houve luz. Fez Deus o firmamento, separou as águas, fez brotar a terra vegetação. Criou os luzeiros: o sol, a lua e as estrelas. Criou os animais marinhos e as aves, os animais terrestres. Finalmente, criou Deus o homem à sua imagem, homem e mulher os criou. E viu Deus que era muito bom. Ao sétimo dia descansou de toda a sua obra.',
-         'A criação revela um Deus de ordem, poder e propósito. Cada detalhe foi planejado. O ser humano, criado à imagem de Deus, recebe dignidade e responsabilidade. O descanso de Deus estabelece o ritmo de confiança e comunhão.'),
-        2: ('O SENHOR Deus formou o homem do pó da terra e soprou em suas narinas o fôlego da vida. Plantou um jardim no Éden e pôs ali o homem. Deu-lhe a ordem de não comer da árvore do conhecimento do bem e do mal. Disse Deus: Não é bom que o homem esteja só. Criou a mulher da costela de Adão. Estavam ambos nus e não se envergonhavam.',
-         'Deus criou o homem para relacionamento: consigo, com a criação e com o próximo. O casamento é apresentado como aliança de parceria e intimidade. Não fomos feitos para viver isolados.'),
-        3: ('A serpente enganou Eva, que comeu do fruto proibido e deu a Adão. Seus olhos foram abertos e esconderam-se de Deus. Deus pronunciou juízo sobre a serpente, a mulher e o homem. Porém, prometeu que a semente da mulher feriria a cabeça da serpente. Deus fez túnicas de peles e os vestiu, e os lançou do jardim do Éden.',
-         'O pecado começou com a dúvida sobre a bondade de Deus. Mas a graça brilha em meio ao juízo: Deus promete um Redentor. Mesmo quando nos escondemos, Deus nos busca e nos veste com sua graça.'),
-        4: ('Caim e Abel ofereceram sacrifícios ao SENHOR. Deus aceitou a oferta de Abel, mas rejeitou a de Caim. Tomado pela ira e ciúmes, Caim matou seu irmão Abel. O SENHOR amaldiçoou Caim e o marcou. Caim partiu para a terra de Node.',
-         'Deus se importa com o coração por trás da oferta, não com o presente em si. O pecado jaz à porta — precisamos dominá-lo. A ira não controlada leva a consequências devastadoras.'),
-        5: ('Este é o livro das gerações de Adão. A genealogia de Adão a Noé: Sete, Enos, Cainã, Maalaleel, Jarede, Enoque, Matusalém, Lameque e Noé. Enoque andou com Deus e foi levado por Deus, não vendo a morte. Matusalém viveu 969 anos.',
-         'A morte reinou desde Adão, mas Enoque escapou porque andava com Deus. Cada nome nesta genealogia é um elo na promessa do Redentor. Uma vida de comunhão com Deus transcende a morte.'),
-        6: ('A maldade humana multiplicou-se, e todo pensamento era continuamente mau. Deus decidiu destruir o homem que criara. Porém, Noé achou graça aos olhos do SENHOR. Deus ordenou que Noé construísse uma arca para salvar sua família e os animais.',
-         'No meio da corrupção geral, um homem se destacou por andar com Deus. A arca é símbolo da salvação que Deus provê para quem confia nEle. A graça de Deus sempre preserva um remanescente fiel.'),
-        7: ('Noé entrou na arca com sua família e os animais conforme Deus ordenara. As janelas dos céus se abriram e choveu quarenta dias e quarenta noites. As águas cobriram toda a terra, destruindo toda carne. Somente Noé e os que estavam com ele na arca sobreviveram.',
-         'O dilúvio mostra que Deus leva o pecado a sério, mas também que Ele preserva quem confia nEle. Juízo e graça andam juntos. A obediência de Noé salvou sua família.'),
-        8: ('Deus lembrou-se de Noé e fez soprar um vento sobre a terra. As águas baixaram, e a arca repousou sobre o monte Ararate. Noé soltou um corvo e depois uma pomba. A pomba voltou com uma folha de oliveira. Noé saiu da arca e ofereceu holocausto ao SENHOR.',
-         '"Lembrou-se Deus de Noé" — que frase linda! Deus não esquece os seus. A pomba com a folha de oliveira é sinal de esperança e novos começos após o juízo.'),
-        9: ('Deus abençoou Noé e seus filhos e estabeleceu uma aliança: não destruiria mais a terra com dilúvio. O arco-íris foi dado como sinal dessa aliança. Noé plantou uma vinha e embebedou-se, e Cam desonrou seu pai. Noé amaldiçoou Canaã e abençoou Sem e Jafé.',
-         'O arco-íris é mais que fenômeno natural — é sinal da fidelidade de Deus. A aliança com Noé é universal e precede a aliança com Abraão. Deus é fiel mesmo quando os homens falham.'),
-        10: ('Estas são as gerações dos filhos de Noé: Sem, Cão e Jafé. Deles se originaram as nações após o dilúvio. Ninrode foi um valente caçador diante do SENHOR. Destes se espalharam as ilhas dos gentios em suas terras, cada qual segundo a sua língua.',
-         'Cada nome representa um povo e uma cultura. Deus se importa com todas as nações. A promessa de que em Abraão todas as famílias seriam benditas começa aqui.'),
+        1: ('No começo, Deus criou os céus e a terra. Deus disse: —Que haja luz! E a luz começou a existir. Deus separou a luz da escuridão, fez o firmamento, juntou as águas e fez aparecer a terra seca. A terra produziu plantas e árvores. Deus fez o sol, a lua e as estrelas. Criou os peixes, as aves e os animais. Finalmente, criou o ser humano — homem e mulher — à sua imagem. Ele viu que tudo era muito bom. No sétimo dia, descansou.',
+         'Deus criou tudo com cuidado e propósito. Cada detalhe mostra seu amor. O ser humano é especial: foi criado para viver com Deus e cuidar do mundo. O descanso de Deus nos ensina a confiar nele e encontrar paz.'),
+        2: ('O Senhor Deus formou o homem do pó da terra e soprou nele o fôlego de vida. Plantou um jardim no Éden e colocou o homem ali para cuidar dele. Deu esta ordem: —Coma de qualquer árvore, menos da árvore do conhecimento do bem e do mal. Depois disse: —Não é bom que o homem viva sozinho. Então criou a mulher de uma costela de Adão. Os dois estavam nus e não sentiam vergonha.',
+         'Deus nos criou para viver em relação: com ele, com os outros e com a natureza. O casamento é uma parceria de amor e companheirismo. Ninguém foi feito para viver isolado.'),
+        3: ('A serpente enganou Eva, que comeu do fruto proibido e deu a Adão. Eles se esconderam de Deus com vergonha. Deus falou sobre as consequências do pecado, mas também fez uma promessa: um descendente da mulher esmagaria a cabeça da serpente. Deus fez roupas de pele para eles e os vestiu. Depois os colocou para fora do jardim do Éden.',
+         'O pecado começa quando duvidamos da bondade de Deus. Mas ele não nos abandona: mesmo no erro, ele nos veste com cuidado e nos dá esperança. Deus sempre busca quem se perdeu.'),
+        4: ('Caim e Abel levaram suas ofertas a Deus. Deus aceitou a oferta de Abel, mas não a de Caim. Com ciúme e raiva, Caim matou seu irmão. Deus perguntou: —Onde está seu irmão? Caim respondeu: —Não sei; por acaso sou eu quem toma conta do meu irmão? Deus o castigou, mas também o protegeu com uma marca.',
+         'Deus olha o coração, não apenas o presente. Quando a raiva toma conta, as consequências são graves. A pergunta de Deus — "Onde está seu irmão?" — nos lembra que somos responsáveis uns pelos outros.'),
+        5: ('Esta é a lista dos descendentes de Adão: Sete, Enos, Cainã, Maalaleel, Jarede, Enoque, Matusalém, Lameque e Noé. Enoque andava com Deus e um dia Deus o levou, e ele desapareceu porque Deus o levou. Matusalém viveu 969 anos.',
+         'Andar com Deus faz toda a diferença. Enoque não passou pela morte porque vivia perto de Deus. Cada nome nesta lista mostra que Deus nunca abandonou seu plano. Uma vida de amizade com Deus é mais forte que a morte.'),
+        6: ('A maldade humana era grande demais na terra. Deus ficou triste por ter criado o ser humano. Mas Noé era um homem correto e andava com Deus. Deus mandou que Noé construísse uma arca enorme para salvar sua família e os animais. Noé obedeceu e fez tudo como Deus havia ordenado.',
+         'No meio de tanta maldade, um homem se destacou por sua fé e obediência. Deus sempre preserva quem confia nele. A arca nos lembra que Deus oferece salvação a quem o segue com sinceridade.'),
+        7: ('Noé entrou na arca com sua família e todos os animais, conforme Deus havia mandado. Então as comportas do céu se abriram e choveu quarenta dias e quarenta noites. As águas cobriram a terra inteira. Somente Noé e quem estava com ele na arca sobreviveram.',
+         'A chuva veio, mas a arca estava pronta. Obedecer a Deus pode parecer estranho para os outros, mas é a diferença entre a vida e a destruição. Deus sempre avisa antes de agir.'),
+        8: ('Deus não esqueceu Noé. Fez soprar um vento, e as águas começaram a baixar. A arca parou no monte Ararate. Noé soltou um corvo e depois uma pomba. A pomba voltou com uma folha de oliveira. Noé saiu da arca e agradeceu a Deus com um altar.',
+         'Deus nunca esquece os seus. A folha de oliveira na boca da pomba é um sinal de esperança e recomeço. Depois da tempestade, Deus sempre traz um novo começo.'),
+        9: ('Deus abençoou Noé e seus filhos e fez uma aliança: nunca mais destruiria a terra com um dilúvio. O arco-íris foi dado como sinal dessa promessa. Noé plantou uma vinha, bebeu vinho e ficou bêbado. Cam desrespeitou o pai, e Noé pronunciou bênçãos e maldições sobre seus filhos.',
+         'O arco-íris é mais que um fenômeno natural: é um lembrete da fidelidade de Deus. A promessa de Deus não depende da perfeição humana. Mesmo quando erramos, Deus continua fiel.'),
+        10: ('Estes são os descendentes dos filhos de Noé: Sem, Cam e Jafé. Deles surgiram os povos e as nações que se espalharam pela terra depois do dilúvio. Cada grupo com sua língua, sua família e sua terra.',
+         'Deus se importa com todos os povos e nações. Cada família e cada cultura têm valor para ele. A promessa de abençoar todas as famílias da terra começa a se cumprir aqui.'),
     },
     "exodus": {
-        1: ('José morreu, e todos os daquela geração. Surgiu um novo rei no Egito que não conhecia a José. Os egípcios oprimiram os israelitas com trabalhos forçados. Quanto mais os oprimiam, mais se multiplicavam. Faraó ordenou que os bebês hebreus fossem mortos, mas as parteiras temeram a Deus.',
-         'A opressão não impediu o plano de Deus. Quanto mais perseguido, mais o povo de Deus cresce. As parteiras são exemplo de obediência a Deus antes que aos homens.'),
-        2: ('Moisés nasceu e foi escondido por três meses. Sua mãe o colocou num cesto no rio Nilo. A filha de Faraó o encontrou e teve compaixão. Miriã trouxe a própria mãe para amamentá-lo. Moisés cresceu no palácio, mas fugiu para Midiã após matar um egípcio.',
-         'Deus prepara seus líderes no palácio (educação) e no deserto (humildade). Moisés pensava que podia libertar Israel com suas próprias forças, mas precisou aprender que a obra é de Deus.'),
-        3: ('Moisés apascentava ovelhas no monte Horebe. O Anjo do SENHOR apareceu numa sarça que ardia sem se consumir. Deus se revelou como o Deus de Abraão, Isaque e Jacó. Moisés foi chamado para libertar Israel. Deus revelou seu nome: EU SOU O QUE SOU.',
-         'A sarça ardente é o encontro que transforma um pastor num libertador. Deus se revela como EU SOU — auto-existente, eterno e presente. Não é nossa capacidade, mas a presença de Deus que faz a diferença.'),
-        4: ('Moisés objetou que não seria ouvido. Deus deu-lhe três sinais: vara que vira cobra, mão leprosa e água que vira sangue. Moisés alegou não ter eloqüência. Arão foi designado como seu porta-voz. Moisés despediu-se de Jetro e partiu para o Egito.',
-         'Deus responde a cada objeção de Moisés com paciência e poder. Ele usa o que temos: "Que é isso na tua mão?" Nossas limitações não são obstáculos para Deus — Ele as usa para mostrar seu poder.'),
-        5: ('Moisés e Arão pediram a Faraó que libertasse Israel para celebrar uma festa ao SENHOR. Faraó recusou e aumentou a opressão, exigindo que os israelitas fizessem os mesmos tijolos sem receber palha. O povo reclamou contra Moisés.',
-         'O primeiro confrontamento pareceu um fracasso. Muitas vezes, quando obedecemos a Deus, as coisas pioram antes de melhorar. O aparente fracasso precede o maior livramento.'),
+        1: ('José morreu, e também todos os da sua geração. Um novo rei, que não conhecia José, começou a governar o Egito. Ele maltratou o povo de Israel com trabalhos forçados. Quanto mais oprimiam, mais o povo crescia. Faraó mandou matar os bebês hebreus, mas as parteiras temeram a Deus e não obedeceram.',
+         'A opressão não impede o plano de Deus. Quanto mais perseguido, mais o povo de Deus cresce. As parteiras nos ensinam que obedecer a Deus vem antes de obedecer a qualquer autoridade humana.'),
+        2: ('Moisés nasceu e sua mãe o escondeu por três meses. Depois o colocou num cesto no rio Nilo. A filha do rei o encontrou e teve pena dele. A irmã de Moisés chamou a própria mãe para amamentá-lo. Moisés cresceu no palácio, mas um dia matou um egípcio e fugiu para a região de Midiã.',
+         'Deus prepara seus líderes no palácio (estudo e cultura) e no deserto (humildade e paciência). Moisés queria resolver as coisas com suas próprias forças, mas precisou aprender a esperar no tempo de Deus.'),
+        3: ('Moisés cuidava de ovelhas no monte Sinai. Ali o anjo do Senhor apareceu numa chama de fogo no meio de um arbusto. O arbusto queimava, mas não se consumia. Deus chamou Moisés e disse: —Eu sou o Deus de Abraão, Isaque e Jacó. Vou libertar meu povo do Egito. E revelou seu nome: —EU SOU.',
+         'O encontro com Deus transforma um simples pastor em libertador. O arbusto que não se consome mostra que Deus é fogo que aquece mas não destrói. Deus se revela como "EU SOU" — sempre presente, sempre fiel.'),
+        4: ('Moisés disse a Deus que ninguém acreditaria nele. Deus deu três sinais: o bastão virou cobra, a mão ficou leprosa e a água virou sangue. Moisés disse que não sabia falar bem. Deus chamou Arão, seu irmão, para ajudá-lo. Moisés se despediu de seu sogro e foi para o Egito.',
+         'Deus responde a cada desculpa de Moisés com paciência e poder. "O que é isso na sua mão?" — Deus usa o que temos, mesmo sendo pouco. Nossas limitações não são obstáculos; são oportunidades para o poder de Deus aparecer.'),
+        5: ('Moisés e Arão pediram ao rei do Egito que deixasse o povo de Israel ir para o deserto celebrar uma festa para Deus. O rei respondeu: —Não conheço esse Deus! E aumentou o trabalho dos israelitas: agora eles deviam fazer a mesma quantidade de tijolos sem receber palha. O povo reclamou contra Moisés.',
+         'Às vezes, quando obedecemos a Deus, as coisas pioram antes de melhorar. O primeiro passo de fé pode parecer um fracasso, mas Deus está trabalhando. A pior hora é sempre antes da virada.'),
     },
 }
 
 def generate_text(book_id, ch_num, title, theme):
-    """Generate meaningful chapter text."""
-    # Check for specific content
+    """Generate meaningful chapter text in NTLH style."""
     if book_id in CHAPTER_TEXT and ch_num in CHAPTER_TEXT[book_id]:
         return CHAPTER_TEXT[book_id][ch_num][0]
     
-    # Genesis and Exodus beyond specific chapters
     if book_id == "genesis":
-        if ch_num == 11: return 'Toda a terra tinha uma só língua e uma só fala. Os homens disseram: Edifiquemos uma torre cujo topo chegue aos céus. O SENHOR confundiu a linguagem de toda a terra e os espalhou por toda a face da terra.'
-        if ch_num == 12: return 'Disse o SENHOR a Abrão: Sai da tua terra, da tua parentela, para a terra que te mostrarei. Far-te-ei uma grande nação. Abrão partiu, aos setenta e cinco anos, pela fé, sem saber para onde ia.'
-        if ch_num == 22: return 'Deus provou Abraão: Toma teu filho Isaque e oferece-o em holocausto. Abraão obedeceu. No momento crucial, o Anjo do SENHOR o impediu. Deus proveu um carneiro. Abraão chamou o lugar: O SENHOR Proverá.'
-        return f'{title}. Neste capítulo de Gênesis, a história da redenção avança através dos patriarcas. Deus cumpre suas promessas apesar das falhas humanas, preparando o caminho para a vinda do Messias.'
+        if ch_num == 11: return 'Naquela época, todos falavam a mesma língua. Eles disseram: —Vamos construir uma cidade com uma torre que chegue até o céu! O Senhor confundiu a língua deles e os espalhou por toda a terra.'
+        if ch_num == 12: return 'O Senhor disse a Abrão: —Saia da sua terra, deixe a sua família e vá para a terra que eu vou mostrar a você. Farei de você um grande povo. Abrão partiu, com setenta e cinco anos, confiando na promessa de Deus, sem saber para onde ia.'
+        if ch_num == 22: return 'Deus pôs Abraão à prova: —Pegue seu filho Isaque, a quem você tanto ama, e ofereça-o como sacrifício. Abraão obedeceu. No momento em que ia matar o filho, o anjo do Senhor o chamou: —Não machuque o menino! Abraão viu um carneiro preso num arbusto e o ofereceu em lugar de Isaque. Abraão chamou aquele lugar: "O Senhor Provê".'
+        return f'{title}. Este capítulo do livro de Gênesis mostra como Deus foi guiando o seu povo. Mesmo com os erros e acertos das pessoas, Deus nunca desistiu do seu plano de amor.'
     
     if book_id == "exodus":
-        return f'{title}. O capítulo {ch_num} de Êxodo narra a libertação de Israel do Egito e o estabelecimento da aliança no Sinai. Deus revela seu poder, sua lei e seu desejo de habitar no meio do seu povo.'
+        return f'{title}. O capítulo {ch_num} do livro de Êxodo conta a história da libertação do povo de Israel do Egito. Deus mostrou seu poder, deu sua lei e quis viver no meio do seu povo.'
     
-    # Generic for other books
-    return f'{title}. Este capítulo revela verdades importantes sobre {theme}. A mensagem central aponta para a fidelidade de Deus e seu plano redentor que se cumpre em Jesus Cristo.'
+    return f'{title}. Este capítulo nos ensina sobre {theme}. A mensagem principal mostra que Deus é fiel e nunca abandona aqueles que confiam nele.'
 
 def generate_reflection(book_id, ch_num, title, theme):
     if book_id in CHAPTER_TEXT and ch_num in CHAPTER_TEXT[book_id]:
         return CHAPTER_TEXT[book_id][ch_num][1]
-    return f'{title} nos ensina sobre {theme}. Ao meditarmos neste capítulo, somos desafiados a aplicar seus princípios à nossa vida, reconhecendo que a Palavra de Deus é viva, eficaz e transformadora. Que possamos crescer em fé e obediência através do estudo das Escrituras.'
+    return f'{title}. Nesta passagem vemos como {theme}. Deus nos ensina através da história para aplicarmos esses princípios no nosso dia a dia. Que possamos confiar mais em Deus e viver de acordo com a sua palavra, que é sempre atual e transformadora.'
 
 # ===================== APOLOGETIC POOLS =====================
 APOL_OT = [
-    "A arqueologia bíblica confirma a historicidade dos relatos do Antigo Testamento, com evidências de cidades, reis e eventos mencionados.",
-    "As profecias messiânicas do AT cumprem-se com precisão em Jesus Cristo, algo estatisticamente impossível por acaso.",
-    "A unidade literária da Bíblia, escrita ao longo de 1500 anos por 40 autores, aponta para inspiração divina.",
-    "A lei moral bíblica é superior e anterior a outros códigos legais antigos, como o Código de Hamurabi.",
-    "A preservação do povo judeu ao longo da história testemunha do cumprimento das promessas bíblicas.",
-    "Os manuscritos do Mar Morto confirmam a precisão da transmissão textual do AT por mais de mil anos.",
-    "A precisão histórica de nomes, lugares e costumes foi confirmada por descobertas arqueológicas.",
-    "O cumprimento das profecias de juízo contra nações (Tiro, Nínive, Babilônia) é evidência de inspiração divina.",
+    "Escavações arqueológicas confirmam que cidades, reis e acontecimentos do Antigo Testamento realmente existiram.",
+    "As profecias do Antigo Testamento sobre o Messias se cumprem em Jesus com detalhes impressionantes — algo que o acaso não explica.",
+    "A Bíblia foi escrita por cerca de 40 autores diferentes ao longo de 1500 anos, e mesmo assim conta uma mesma história. Isso aponta para Deus como autor principal.",
+    "Os princípios morais da Bíblia são anteriores e superiores a outros códigos de leis antigos, como o Código de Hamurabi.",
+    "O povo judeu se manteve unido ao longo da história, mesmo espalhado pelo mundo. Isso confirma que as promessas de Deus se cumprem.",
+    "Os Manuscritos do Mar Morto comprovam que o texto do Antigo Testamento foi transmitido com muita fidelidade por mais de mil anos.",
+    "Nomes de pessoas, lugares e costumes mencionados na Bíblia foram confirmados por descobertas de arqueólogos.",
+    "Profecias contra cidades como Tiro, Nínive e Babilônia se cumpriram com exatidão — mais uma prova de que a Bíblia é inspirada por Deus.",
 ]
 
 APOL_NT = [
-    "A historicidade dos evangelhos é corroborada por fontes extra-bíblicas como Tácito, Josefo e Plínio.",
-    "O cumprimento das profecias do AT em Jesus demonstra a inspiração divina das Escrituras.",
-    "O testemunho dos apóstolos, que morreram por sua fé, dá credibilidade histórica à ressurreição.",
-    "A transformação dos discípulos de medrosos em pregadores corajosos é evidência da ressurreição.",
-    "A consistência teológica entre os 27 livros do NT aponta para origem divina.",
-    "A propagação explosiva do cristianismo no Império Romano, apesar da perseguição, testemunha do poder do evangelho.",
-    "Múltiplos testemunhos oculares registrados nos evangelhos fornecem evidência histórica robusta para os eventos.",
-    "O túmulo vazio é um dos fatos históricos mais estabelecidos, aceito até por críticos céticos.",
+    "A existência de Jesus e dos primeiros cristãos é confirmada por historiadores não cristãos, como Tácito, Josefo e Plínio.",
+    "Jesus cumpriu diversas profecias do Antigo Testamento, mostrando que a Bíblia é realmente inspirada por Deus.",
+    "Os apóstolos estavam dispostos a morrer pela fé na ressurreição de Jesus. Isso dá credibilidade ao que testemunharam.",
+    "Os discípulos passaram de medrosos escondidos num quarto a pregadores corajosos. Essa transformação é uma forte evidência da ressurreição.",
+    "Os 27 livros do Novo Testamento têm uma mensagem coerente e unificada, apesar de terem autores diferentes — isso aponta para origem divina.",
+    "O cristianismo se espalhou rapidamente pelo Império Romano apesar da perseguição. Isso mostra o poder transformador do evangelho.",
+    "Os evangelhos foram escritos por testemunhas oculares ou por quem ouviu diretamente delas. São relatos confiáveis.",
+    "O túmulo vazio é um fato histórico aceito até por estudiosos que não são cristãos. É uma das maiores evidências da ressurreição.",
 ]
 
 def generate_quiz(book_id, ch_num, title, testament):
@@ -103,12 +100,12 @@ def generate_quiz(book_id, ch_num, title, testament):
     
     # Chapter-specific questions for key chapters
     qpools = [
-        make_quiz_item("O que significa o nome deste livro?", ["Nome do autor", "Título do livro", "Tema central", "Personagem principal"], 2, "O título do livro reflete seu tema central e mensagem principal."),
-        make_quiz_item("Quantos capítulos tem este livro?", ["Depende da edição", "Conforme indicado na introdução", "É o número total listado", "Varia conforme a tradição"], 2, "Cada livro bíblico tem seu número específico de capítulos conforme o cânon."),
-        make_quiz_item("Qual é a mensagem principal deste capítulo?", ["Não é possível determinar", "O título do capítulo indica", "Precisa de estudo teológico", "Depende da interpretação"], 1, "O título de cada capítulo resume sua mensagem principal."),
-        make_quiz_item("Em que testamento este livro está?", ["Antigo Testamento", "Novo Testamento", "Testamento Interbíblico", "Apócrifo"], 0 if is_ot else 1, f'Este livro pertence ao {testament}.'),
-        make_quiz_item("Quem é o autor tradicional deste livro?", ["Moisés", "Davi", "Salomão", "Varia conforme o livro"], 3, "Diferentes livros foram escritos por diferentes autores inspirados por Deus."),
-        make_quiz_item("Este capítulo contém principalmente:", ["Narrativa histórica", "Poesia e louvor", "Lei e mandamentos", "Profecia e visão"], 0, "Cada capítulo tem seu gênero literário predominante."),
+        make_quiz_item("Qual é o tema principal deste capítulo?", ["Não dá para saber", "O título do capítulo mostra", "Só estudando teologia", "Depende de cada um"], 1, "O título de cada capítulo resume bem o assunto principal."),
+        make_quiz_item("Em que parte da Bíblia este livro está?", ["Antigo Testamento", "Novo Testamento", "Parte nenhuma", "Depende da Bíblia"], 0 if is_ot else 1, f'Este livro está no {testament}.'),
+        make_quiz_item("Quantos capítulos tem este livro?", ["Não tem como saber", "Conforme a lista no início", "Varia de Bíblia pra Bíblia", "Depende do tradutor"], 1, "Cada livro tem um número certo de capítulos, e você pode ver na lista."),
+        make_quiz_item("Que tipo de texto predomina neste capítulo?", ["História", "Poesia", "Leis", "Profecia"], 0, "A maioria dos capítulos da Bíblia conta uma história ou transmite um ensinamento."),
+        make_quiz_item("Quem escreveu este livro?", ["Moisés", "Davi", "Salomão", "Varia de livro pra livro"], 3, "Cada livro foi escrito por um autor diferente, inspirado por Deus."),
+        make_quiz_item("Este capítulo está no:", ["Antigo Testamento", "Novo Testamento", "Os dois", "Nenhum"], 0 if is_ot else 1, f'Este livro faz parte do {testament}.'),
     ]
     
     # Deterministic selection based on chapter number
@@ -635,39 +632,41 @@ def split_verses(text):
 CHAPTER_VERSES = {
     "genesis": {
         1: [
-            "No princípio, criou Deus os céus e a terra.",
-            "A terra era sem forma e vazia; e havia trevas sobre a face do abismo; mas o Espírito de Deus pairava sobre a face das águas. E disse Deus: Haja luz. E houve luz.",
-            "E viu Deus que a luz era boa; e fez separação entre a luz e as trevas. E chamou à luz Dia, e às trevas chamou Noite. E foi a tarde e a manhã, o primeiro dia.",
-            "E disse Deus: Haja uma expansão no meio das águas, e haja separação entre águas e águas. E chamou a expansão Céus. E foi a tarde e a manhã, o segundo dia.",
-            "E disse Deus: Ajuntem-se as águas debaixo dos céus num lugar, e apareça a porção seca. E disse Deus: Produza a terra erva verde e árvores frutíferas. E foi a tarde e a manhã, o terceiro dia.",
-            "E disse Deus: Haja luzeiros no firmamento dos céus. E fez Deus os dois grandes luzeiros: o maior para governar o dia, e o menor para governar a noite; e fez também as estrelas. E foi a tarde e a manhã, o quarto dia.",
-            "E disse Deus: Produzam as águas abundantemente répteis de alma vivente, e voem as aves sobre a face do firmamento. E criou Deus as grandes baleias. E foi a tarde e a manhã, o quinto dia.",
-            "E disse Deus: Produza a terra alma vivente. Façamos o homem à nossa imagem, conforme a nossa semelhança. E criou Deus o homem à sua imagem; homem e mulher os criou.",
-            "E viu Deus tudo quanto tinha feito, e eis que era muito bom. E foi a tarde e a manhã, o sexto dia.",
-            "Assim os céus e a terra foram acabados. E havendo Deus acabado no sétimo dia a sua obra, descansou de toda a sua obra. E abençoou Deus o sétimo dia e o santificou."
+            "No começo, Deus criou os céus e a terra.",
+            "A terra era sem forma e vazia. As trevas cobriam o mar profundo, e o Espírito de Deus se movia sobre a superfície das águas. Então Deus disse: —Que haja luz! E a luz começou a existir.",
+            "Deus viu que a luz era boa. Então separou a luz da escuridão. Deus chamou a luz de \"dia\" e a escuridão de \"noite\". A noite passou, e veio a manhã. Esse foi o primeiro dia.",
+            "Deus disse: —Que haja um firmamento separando as águas! E assim aconteceu. Deus fez o firmamento e separou as águas. E chamou o firmamento de \"céu\". A noite passou, e veio a manhã. Esse foi o segundo dia.",
+            "Deus disse: —Que as águas se juntam num só lugar e apareça a terra seca! E assim aconteceu. Deus disse: —Que a terra produza plantas e árvores frutíferas! E assim aconteceu. A noite passou, e veio a manhã. Esse foi o terceiro dia.",
+            "Deus disse: —Que haja luzeiros no céu para separar o dia da noite e marcar os dias, as estações e os anos! Deus fez o sol para governar o dia, a lua para governar a noite, e também as estrelas. A noite passou, e veio a manhã. Esse foi o quarto dia.",
+            "Deus disse: —Que as águas fiquem cheias de peixes e que as aves voem pelo céu! Deus criou os grandes animais do mar e todas as aves. A noite passou, e veio a manhã. Esse foi o quinto dia.",
+            "Deus disse: —Que a terra produza animais domésticos, selvagens e os que se arrastam pelo chão! E assim aconteceu. Então Deus disse: —Façamos o ser humano à nossa imagem, conforme a nossa semelhança. E Deus criou o ser humano à sua imagem, homem e mulher os criou.",
+            "Deus olhou para tudo o que havia feito e viu que tudo era muito bom. A noite passou, e veio a manhã. Esse foi o sexto dia.",
+            "Assim foram terminados os céus e a terra com tudo o que neles existe. No sétimo dia, Deus terminou todo o seu trabalho e descansou. Ele abençoou o sétimo dia e o separou como um dia especial."
         ],
         2: [
-            "Assim os céus e a terra foram acabados com todo o seu exército.",
-            "E o SENHOR Deus formou o homem do pó da terra e soprou em suas narinas o fôlego da vida; e o homem foi feito alma vivente.",
-            "E plantou o SENHOR Deus um jardim no Éden, da banda do Oriente, e pôs ali o homem que tinha formado.",
-            "E o SENHOR Deus fez brotar da terra toda árvore agradável à vista e boa para comida, e a árvore da vida no meio do jardim, e a árvore do conhecimento do bem e do mal.",
-            "E tomou o SENHOR Deus o homem e o pôs no jardim do Éden para o lavrar e guardar. E deu-lhe ordem, dizendo: De toda árvore do jardim comerás livremente, mas da árvore do conhecimento do bem e do mal não comerás; porque no dia em que dela comeres, certamente morrerás.",
-            "E disse o SENHOR Deus: Não é bom que o homem esteja só; far-lhe-ei uma ajudadora idônea. E da costela que o SENHOR Deus tomou do homem, formou uma mulher, e trouxe-a a Adão.",
-            "E disse Adão: Esta é agora osso dos meus ossos e carne da minha carne; esta será chamada varoa, porquanto do varão foi tomada. Portanto deixará o varão o seu pai e a sua mãe e apegar-se-á à sua mulher, e serão ambos uma carne.",
-            "E ambos estavam nus, o homem e a sua mulher, e não se envergonhavam."
+            "Assim foram acabados os céus e a terra com tudo o que neles existe.",
+            "No sétimo dia, Deus terminou todo o seu trabalho e descansou de tudo o que havia feito. Ele abençoou o sétimo dia e o separou para ser um dia santo.",
+            "Essa é a história da criação dos céus e da terra, quando o Senhor Deus fez o céu e a terra.",
+            "Ainda não havia plantas nem árvores na terra, porque o Senhor Deus ainda não tinha feito chover, e não havia ninguém para cultivar a terra. Mas uma neblina subia da terra e regava todo o solo.",
+            "Então o Senhor Deus formou o homem do pó da terra e soprou no nariz dele o fôlego de vida. Assim o homem se tornou um ser vivo.",
+            "Depois o Senhor Deus plantou um jardim no Éden, no Oriente, e colocou ali o homem que havia formado. Ele fez crescer do chão todo tipo de árvores bonitas e boas para comer.",
+            "No meio do jardim estavam a árvore da vida e a árvore do conhecimento do bem e do mal. Deus disse ao homem: —Você pode comer de qualquer árvore do jardim, menos da árvore do conhecimento do bem e do mal. Se comer dela, certamente morrerá.",
+            "Depois o Senhor Deus disse: —Não é bom que o homem viva sozinho. Vou fazer alguém que o ajude como se fosse a sua outra metade. Então Deus fez cair um sono profundo sobre Adão. Enquanto ele dormia, tirou uma de suas costelas e formou uma mulher.",
+            "Então Adão disse: —Agora sim! Esta é osso dos meus ossos e carne da minha carne! Ela será chamada de mulher, porque foi tirada do homem. Por isso o homem deixará o seu pai e a sua mãe para se unir com a sua mulher, e os dois serão uma só carne.",
+            "Os dois, o homem e a sua mulher, estavam nus, mas não sentiam vergonha."
         ],
         3: [
-            "E a serpente era mais astuta que todas as alimárias do campo. Disse à mulher: É assim que Deus disse: Não comereis de toda árvore do jardim?",
-            "A mulher respondeu: Do fruto das árvores comeremos, mas do fruto da árvore que está no meio do jardim não comereis, para que não morrais.",
-            "Então a serpente disse: Certamente não morrereis. Porque Deus sabe que no dia em que dele comerdes se abrirão os vossos olhos e sereis como Deus.",
-            "E vendo a mulher que aquela árvore era desejável para dar entendimento, tomou do seu fruto e comeu, e deu também a seu marido, e ele comeu.",
-            "Então foram abertos os olhos de ambos, e conheceram que estavam nus; e coseram folhas de figueira e fizeram aventais.",
-            "E ouviram a voz do SENHOR Deus que passeava no jardim; e esconderam-se da presença do SENHOR Deus entre as árvores do jardim.",
-            "E chamou o SENHOR Deus a Adão e disse-lhe: Onde estás? Ele respondeu: Ouvi a tua voz no jardim e escondi-me, porque estava nu.",
-            "E Deus disse: Quem te mostrou que estavas nu? Comeste tu da árvore de que te ordenei que não comesses?",
-            "Então Adão disse: A mulher que me deste por companheira, ela me deu da árvore, e comi.",
-            "E o SENHOR Deus disse à serpente: Porquanto fizeste isto, maldita és. Porei inimizade entre ti e a mulher, e entre a tua semente e a sua semente; esta te ferirá a cabeça, e tu lhe ferirás o calcanhar.",
-            "E o SENHOR Deus fez túnicas de peles a Adão e à sua mulher e os vestiu. E lançou-os fora do jardim do Éden."
+            "A serpente era o mais esperto de todos os animais que o Senhor Deus havia criado. Ela perguntou à mulher: —É verdade que Deus disse que vocês não podem comer de nenhuma árvore do jardim?",
+            "A mulher respondeu: —Nós podemos comer das frutas de qualquer árvore do jardim. Só não podemos comer da árvore que está no meio do jardim, porque se comermos ou tocarmos nela, morreremos.",
+            "A serpente disse: —Vocês não vão morrer coisa nenhuma! Deus sabe que, no dia em que comerem dessa árvore, os olhos de vocês vão se abrir e vocês serão como Deus, conhecendo o bem e o mal.",
+            "A mulher viu que a fruta da árvore era bonita e parecia gostosa. Ela também queria comer porque a fruta daria inteligência. Então pegou uma fruta, comeu e deu ao seu marido, que estava com ela, e ele também comeu.",
+            "Nesse momento os olhos dos dois se abriram, e eles perceberam que estavam nus. Então costuraram folhas de figueira para fazerem aventais.",
+            "Quando ouviram a voz do Senhor Deus passeando pelo jardim no fim da tarde, o homem e a sua mulher se esconderam entre as árvores. Mas o Senhor Deus chamou o homem: —Onde é que você está?",
+            "O homem respondeu: —Eu ouvi a tua voz no jardim e fiquei com medo porque estava nu; por isso me escondi. Deus perguntou: —E quem disse que você estava nu? Por acaso comeu da árvore que eu mandei que não comesse?",
+            "O homem disse: —A mulher que a senhora me deu para ser minha companheira é que me deu da fruta, e eu comi. Então o Senhor Deus perguntou à mulher: —Por que você fez isso? A mulher respondeu: —A serpente me enganou, e eu comi.",
+            "Então o Senhor Deus disse à serpente: —Por causa do que você fez, você será amaldiçoada. Farei com que você e a mulher sejam inimigas. Um descendente da mulher vai esmagar a sua cabeça, e você vai ferir o calcanhar dele.",
+            "Depois Deus disse à mulher: —Vou aumentar o seu sofrimento na gravidez. E disse ao homem: —Você vai trabalhar com muito esforço para tirar da terra o seu sustento. Você foi feito do pó da terra e vai voltar ao pó.",
+            "O homem deu à sua mulher o nome de Eva, pois ela seria a mãe de toda a humanidade. O Senhor Deus fez roupas de pele de animal para o homem e a sua mulher e os vestiu. Depois os expulsou do jardim do Éden para que não comessem também da árvore da vida."
         ],
     }
 }
