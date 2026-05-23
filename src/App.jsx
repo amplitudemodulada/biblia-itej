@@ -1,4 +1,5 @@
 ﻿import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useRegisterSW } from 'virtual:pwa-register/react'
 import {
   Menu, X, Sun, Moon, BookOpen, CheckCircle, BarChart3,
   ChevronLeft, ChevronRight, Book, Sparkles,
@@ -532,6 +533,11 @@ function App() {
   const [currentChapterIdx, setCurrentChapterIdx] = useState(0)
   const [showCompletionModal, setShowCompletionModal] = useState(false)
 
+  const {
+    needRefresh: [needRefresh],
+    updateServiceWorker,
+  } = useRegisterSW()
+
   const currentBook = useMemo(() => BIBLE_DATA.find(b => b.id === currentBookId), [currentBookId])
   const currentChapter = useMemo(() => currentBook?.chapters[currentChapterIdx], [currentBook, currentChapterIdx])
   const hasNextChapter = currentBook && currentChapterIdx < currentBook.chapters.length - 1
@@ -696,6 +702,26 @@ function App() {
           )}
         </main>
       </div>
+
+      {needRefresh && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-amber-500 text-white px-4 py-3 flex items-center justify-between shadow-2xl animate-fade-in">
+          <p className="text-sm font-medium">Nova versão disponível</p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => updateServiceWorker(true)}
+              className="px-4 py-1.5 rounded-lg bg-white text-amber-700 text-sm font-semibold hover:bg-amber-50 transition-colors"
+            >
+              Atualizar
+            </button>
+            <button
+              onClick={() => updateServiceWorker(false)}
+              className="px-2 py-1.5 text-white/80 hover:text-white text-sm transition-colors"
+            >
+              Dispensar
+            </button>
+          </div>
+        </div>
+      )}
 
       {showCompletionModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
