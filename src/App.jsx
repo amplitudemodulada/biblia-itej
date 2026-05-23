@@ -1,20 +1,10 @@
 ﻿import { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   Menu, X, Sun, Moon, BookOpen, CheckCircle, BarChart3,
-  ChevronLeft, ChevronRight, Book, Sparkles, Brain,
-  Trophy, Target, Flame, RotateCcw, ChevronDown, LogOut
+  ChevronLeft, ChevronRight, Book, Sparkles,
+  Trophy, Target, Flame, RotateCcw
 } from 'lucide-react'
 import { BIBLE_DATA } from './data/bibleData'
-
-const LS_KEY_PROGRESS = 'pv-progress'
-const LS_KEY_THEME = 'pv-theme'
-
-function loadProgress() {
-  try {
-    const raw = localStorage.getItem(LS_KEY_PROGRESS)
-    return raw ? JSON.parse(raw) : { completed: {}, answered: {}, flipped: {}, quiz: {} }
-  } catch { return { completed: {}, answered: {}, flipped: {}, quiz: {} } }
-}
 
 function saveProgress(data) {
   localStorage.setItem(LS_KEY_PROGRESS, JSON.stringify(data))
@@ -232,53 +222,6 @@ function Dashboard({ progress }) {
   )
 }
 
-function FlipCard({ question, answer, flipped, answered, onFlip, onAnswer }) {
-  return (
-    <div className="flip-card-perspective w-full max-w-lg mx-auto" style={{ minHeight: '220px' }}>
-      <div className={`relative w-full h-full transition-transform duration-500 preserve-3d ${flipped ? 'rotate-y-180' : ''}`} style={{ minHeight: '220px' }}>
-        <div className="absolute inset-0 backface-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 flex flex-col items-center justify-center text-center">
-          <div className="p-3 rounded-full bg-amber-100 dark:bg-amber-900/30 mb-4">
-            <Brain className="w-6 h-6 text-amber-600 dark:text-amber-400" />
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 font-medium mb-2">Pergunta</p>
-          <p className="text-slate-800 dark:text-slate-100 text-lg">{question}</p>
-          {!flipped && (
-            <button
-              onClick={onFlip}
-              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-sm font-medium transition-colors"
-            >
-              <RotateCcw className="w-4 h-4" />
-              Virar para ver resposta
-            </button>
-          )}
-        </div>
-        <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 p-6 flex flex-col items-center justify-center text-center">
-          <div className="p-3 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
-            <Sparkles className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-          </div>
-          <p className="text-slate-700 dark:text-slate-300 font-medium mb-2">Resposta</p>
-          <p className="text-slate-800 dark:text-slate-100 text-lg">{answer}</p>
-          {!answered && (
-            <button
-              onClick={onAnswer}
-              className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium transition-colors"
-            >
-              <CheckCircle className="w-4 h-4" />
-              Marcar como Respondido
-            </button>
-          )}
-          {answered && (
-            <div className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-medium">
-              <CheckCircle className="w-4 h-4" />
-              Respondido
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function QuizSection({ quiz, chapterKey, progress, onAnswer }) {
   if (!quiz || quiz.length === 0) return null
 
@@ -414,33 +357,25 @@ function QuizSection({ quiz, chapterKey, progress, onAnswer }) {
 }
 
 function ReadingView({ chapter, bookId, bookName, progress, onComplete, onQuizAnswer }) {
-  const [scrollY, setScrollY] = useState(0)
   const [showIrAlem, setShowIrAlem] = useState(false)
   const [irAlemTab, setIrAlemTab] = useState('reflection')
-  const [cardFlipped, setCardFlipped] = useState(false)
-  const [cardAnswered, setCardAnswered] = useState(false)
 
   const key = `${bookId}-${chapter.number}`
   const isCompleted = progress.completed[key]
-  const isAnswered = progress.answered[key] || false
 
   useEffect(() => {
-    setCardFlipped(false)
-    setCardAnswered(isAnswered)
     setShowIrAlem(false)
-    setScrollY(0)
   }, [chapter.number])
 
   const handleScroll = useCallback((e) => {
     const el = e.currentTarget
     const scrolled = el.scrollTop
-    setScrollY(scrolled)
     const threshold = el.scrollHeight - el.clientHeight - 300
     if (scrolled > threshold) setShowIrAlem(true)
   }, [])
 
   const handleComplete = () => {
-    onComplete(chapter.number - 1, cardAnswered)
+    onComplete(chapter.number - 1)
   }
 
   const sectionKey = `${chapter.number}-${irAlemTab}`
@@ -492,13 +427,6 @@ function ReadingView({ chapter, bookId, bookName, progress, onComplete, onQuizAn
                   <Sparkles className="w-4 h-4" />
                   Reflexão
                 </button>
-                <button
-                  onClick={() => setIrAlemTab('activity')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${irAlemTab === 'activity' ? 'bg-white dark:bg-slate-700 text-amber-700 dark:text-amber-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
-                >
-                  <Brain className="w-4 h-4" />
-                  Atividade
-                </button>
                 {chapter.apologeticPoints && chapter.apologeticPoints.length > 0 && (
                   <button
                     onClick={() => setIrAlemTab('apologetics')}
@@ -524,17 +452,6 @@ function ReadingView({ chapter, bookId, bookName, progress, onComplete, onQuizAn
                     </div>
                   </div>
                 </div>
-              )}
-
-              {irAlemTab === 'activity' && (
-                <FlipCard
-                  question={chapter.activity.question}
-                  answer={chapter.activity.answer}
-                  flipped={cardFlipped}
-                  answered={cardAnswered}
-                  onFlip={() => setCardFlipped(true)}
-                  onAnswer={() => setCardAnswered(true)}
-                />
               )}
 
               {irAlemTab === 'apologetics' && chapter.apologeticPoints && (
@@ -613,9 +530,11 @@ function App() {
   const [progress, setProgress] = useState(loadProgress)
   const [currentBookId, setCurrentBookId] = useState('genesis')
   const [currentChapterIdx, setCurrentChapterIdx] = useState(0)
+  const [showCompletionModal, setShowCompletionModal] = useState(false)
 
   const currentBook = useMemo(() => BIBLE_DATA.find(b => b.id === currentBookId), [currentBookId])
   const currentChapter = useMemo(() => currentBook?.chapters[currentChapterIdx], [currentBook, currentChapterIdx])
+  const hasNextChapter = currentBook && currentChapterIdx < currentBook.chapters.length - 1
 
   useEffect(() => {
     const root = document.documentElement
@@ -638,7 +557,7 @@ function App() {
     setSidebarOpen(false)
   }, [])
 
-  const handleCompleteChapter = useCallback((chapterIdx, answered) => {
+  const handleCompleteChapter = useCallback(() => {
     const ch = currentChapter
     if (!ch) return
     const key = `${currentBookId}-${ch.number}`
@@ -647,16 +566,23 @@ function App() {
         ...prev,
         completed: { ...prev.completed, [key]: new Date().toISOString().split('T')[0] }
       }
-      if (answered) {
-        next.answered = { ...next.answered, [key]: true }
-      }
       saveProgress(next)
       return next
     })
-    if (currentChapterIdx < currentBook.chapters.length - 1) {
+    setShowCompletionModal(true)
+  }, [currentBookId, currentChapter])
+
+  const handleModalNext = useCallback(() => {
+    if (hasNextChapter) {
       setCurrentChapterIdx(prev => prev + 1)
     }
-  }, [currentBookId, currentChapter, currentChapterIdx, currentBook])
+    setShowCompletionModal(false)
+  }, [hasNextChapter])
+
+  const handleModalChoose = useCallback(() => {
+    setShowCompletionModal(false)
+    setSidebarOpen(true)
+  }, [])
 
   const handleQuizAnswer = useCallback((chapterKey, questionIdx, correct) => {
     setProgress(prev => {
@@ -770,6 +696,37 @@ function App() {
           )}
         </main>
       </div>
+
+      {showCompletionModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 mx-4 max-w-sm w-full animate-fade-in">
+            <div className="text-center mb-6">
+              <div className="p-3 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mx-auto mb-3 w-fit">
+                <CheckCircle className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Capítulo concluído!</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">O que deseja fazer agora?</p>
+            </div>
+            <div className="space-y-2">
+              <button
+                onClick={handleModalNext}
+                disabled={!hasNextChapter}
+                className={`w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-all ${hasNextChapter ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/25' : 'bg-slate-100 dark:bg-slate-700 text-slate-400 cursor-not-allowed'}`}
+              >
+                <ChevronRight className="w-4 h-4" />
+                Próximo Capítulo
+              </button>
+              <button
+                onClick={handleModalChoose}
+                className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-medium border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all"
+              >
+                <BookOpen className="w-4 h-4" />
+                Escolher Capítulo
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
