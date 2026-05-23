@@ -13,6 +13,7 @@ const Home = lazy(() => import('./views/Home'))
 const Dashboard = lazy(() => import('./views/Dashboard'))
 const ReadingView = lazy(() => import('./views/ReadingView'))
 const SearchView = lazy(() => import('./views/SearchView'))
+const GlossaryView = lazy(() => import('./views/GlossaryView'))
 
 const LS_KEY_PROGRESS = 'pv-progress'
 const LS_KEY_THEME = 'pv-theme'
@@ -629,6 +630,13 @@ function App() {
               <Calendar className="w-3.5 h-3.5" />
               Plano
             </button>
+            <button
+              onClick={() => setActiveSection('glossary')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${activeSection === 'glossary' ? 'bg-white dark:bg-slate-700 text-amber-700 dark:text-amber-400 shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'}`}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              Glossário
+            </button>
           </div>
 
           <div className="hidden sm:flex items-center gap-1.5 mr-2">
@@ -723,6 +731,8 @@ function App() {
                 onSelectChapter={handleSelectChapter}
                 onGoToCurrentDay={() => setActiveSection('plan')}
               />
+            ) : activeSection === 'glossary' ? (
+              <GlossaryView />
             ) : currentChapter ? (
               <ReadingView
                 key={`${currentBookId}-${currentChapter.number}-${selectedVersion}`}
