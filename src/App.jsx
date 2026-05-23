@@ -3,7 +3,8 @@ import { Workbox } from 'workbox-window'
 import {
   Menu, X, Sun, Moon, BookOpen, CheckCircle, BarChart3,
   ChevronLeft, ChevronRight, ChevronDown, Book, Sparkles,
-  Trophy, Target, Flame, RotateCcw, Download
+  Trophy, Target, Flame, RotateCcw, Download,
+  Play, Pause, SkipBack, SkipForward, Volume2, Gauge
 } from 'lucide-react'
 import { BIBLE_DATA } from './data/bibleData'
 
@@ -370,12 +371,82 @@ function QuizSection({ quiz, chapterKey, progress, onAnswer }) {
 function ReadingView({ chapter, bookId, bookName, progress, onComplete, onQuizAnswer }) {
   const [showIrAlem, setShowIrAlem] = useState(false)
   const [irAlemTab, setIrAlemTab] = useState('reflection')
+  const [audioPlaying, setAudioPlaying] = useState(false)
+  const [audioPaused, setAudioPaused] = useState(false)
+  const [audioVerseIdx, setAudioVerseIdx] = useState(null)
+  const [audioRate, setAudioRate] = useState(1)
+
+  const verses = chapter.verses || [chapter.text]
+
+  const speakVerse = useCallback((idx) => {
+    if (!window.speechSynthesis) return
+    window.speechSynthesis.cancel()
+    const u = new SpeechSynthesisUtterance(verses[idx])
+    u.lang = 'pt-BR'
+    u.rate = audioRate
+    u.onend = () => {
+      if (idx < verses.length - 1) {
+        setAudioVerseIdx(idx + 1)
+      } else {
+        setAudioPlaying(false)
+        setAudioPaused(false)
+        setAudioVerseIdx(null)
+      }
+    }
+    u.onerror = () => { setAudioPlaying(false); setAudioPaused(false); setAudioVerseIdx(null) }
+    window.speechSynthesis.speak(u)
+  }, [verses, audioRate])
+
+  useEffect(() => {
+    if (audioVerseIdx !== null && audioPlaying) {
+      speakVerse(audioVerseIdx)
+    }
+  }, [audioVerseIdx, audioPlaying, speakVerse])
+
+  useEffect(() => {
+    return () => { window.speechSynthesis?.cancel() }
+  }, [chapter.number])
+
+  const togglePlay = () => {
+    if (!audioPlaying) {
+      if (audioPaused) {
+        window.speechSynthesis.resume()
+        setAudioPaused(false)
+      } else {
+        const startIdx = audioVerseIdx !== null ? audioVerseIdx : 0
+        setAudioVerseIdx(startIdx)
+        setAudioPlaying(true)
+      }
+    } else {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.pause()
+        setAudioPaused(true)
+      } else {
+        setAudioPlaying(false)
+      }
+    }
+  }
+
+  const stopAudio = () => {
+    window.speechSynthesis?.cancel()
+    setAudioPlaying(false)
+    setAudioPaused(false)
+    setAudioVerseIdx(null)
+  }
+
+  const skipTo = (idx) => {
+    window.speechSynthesis?.cancel()
+    setAudioVerseIdx(idx)
+    if (!audioPlaying) setAudioPlaying(true)
+    setAudioPaused(false)
+  }
 
   const key = `${bookId}-${chapter.number}`
   const isCompleted = progress.completed[key]
 
   useEffect(() => {
     setShowIrAlem(false)
+    stopAudio()
   }, [chapter.number])
 
   const handleScroll = useCallback((e) => {
@@ -403,12 +474,70 @@ function ReadingView({ chapter, bookId, bookName, progress, onComplete, onQuizAn
             <span className="px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-[10px] font-semibold uppercase tracking-wide">NTLH</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-6">{chapter.title}</h1>
-          
+
+          <div className="flex items-center gap-2 mb-6 p-3 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+            <button
+              onClick={togglePlay}
+              className={`p-2.5 rounded-lg transition-all ${audioPlaying ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/20' : 'bg-white dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300'}`}
+              title={audioPlaying && !audioPaused ? 'Pausar' : 'Ouvir capítulo'}
+            >
+              {audioPlaying && !audioPaused ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            </button>
+            {audioPlaying && (
+              <>
+                <button
+                  onClick={() => skipTo(Math.max(0, (audioVerseIdx || 0) - 1))}
+                  disabled={audioVerseIdx === 0 || audioVerseIdx === null}
+                  className="p-2 rounded-lg hover:bg-white dark:hover:bg-slate-700 text-slate-500 disabled:opacity-30 transition-all"
+                >
+                  <SkipBack className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => skipTo(Math.min(verses.length - 1, (audioVerseIdx || 0) + 1))}
+                  disabled={audioVerseIdx === verses.length - 1 || audioVerseIdx === null}
+                  className="p-2 rounded-lg hover:bg-white dark:hover:bg-slate-700 text-slate-500 disabled:opacity-30 transition-all"
+                >
+                  <SkipForward className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={stopAudio}
+                  className="p-2 rounded-lg hover:bg-white dark:hover:bg-slate-700 text-red-500 transition-all"
+                  title="Parar"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </>
+            )}
+            <div className="flex items-center gap-1.5 ml-auto">
+              <Volume2 className="w-3.5 h-3.5 text-slate-400" />
+              <div className="flex gap-0.5">
+                {[0.75, 1, 1.25, 1.5].map(rate => (
+                  <button
+                    key={rate}
+                    onClick={() => { stopAudio(); setAudioRate(rate) }}
+                    className={`px-1.5 py-0.5 rounded text-[11px] font-medium transition-all ${audioRate === rate ? 'bg-amber-500 text-white' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'}`}
+                  >
+                    {rate}x
+                  </button>
+                ))}
+              </div>
+            </div>
+            {audioPlaying && audioVerseIdx !== null && (
+              <span className="text-[11px] text-slate-400 font-medium shrink-0">
+                {audioVerseIdx + 1}/{verses.length}
+              </span>
+            )}
+          </div>
+
           <div className="mb-12">
             {chapter.verses && chapter.verses.length > 0 ? (
               <div className="space-y-3">
                 {chapter.verses.map((v, i) => (
-                  <p key={i} className="text-base sm:text-lg leading-relaxed text-slate-700 dark:text-slate-300 font-serif">
+                  <p
+                    key={i}
+                    onClick={() => { if (!audioPlaying) { skipTo(i) } else { stopAudio(); skipTo(i) } }}
+                    className={`text-base sm:text-lg leading-relaxed font-serif cursor-pointer rounded-lg transition-all ${audioVerseIdx === i && audioPlaying ? 'bg-amber-50 dark:bg-amber-900/20 px-4 -mx-4 py-3 text-amber-800 dark:text-amber-200 shadow-sm' : audioVerseIdx === i && audioPaused ? 'bg-amber-50/50 dark:bg-amber-900/10 px-4 -mx-4 py-3 text-slate-700 dark:text-slate-300' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 px-2 -mx-2'}`}
+                  >
                     <sup className="text-amber-500 dark:text-amber-400 font-semibold text-xs sm:text-sm mr-1.5 select-none">{i + 1}</sup>
                     {v}
                   </p>
