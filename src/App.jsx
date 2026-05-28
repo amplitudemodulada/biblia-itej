@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react'
 import { Workbox } from 'workbox-window'
 import {
   Menu, X, Sun, Moon, BookOpen, CheckCircle, BarChart3,
@@ -8,6 +8,7 @@ import {
   Search as SearchIcon, Share2, Star, Calendar
 } from 'lucide-react'
 import { BIBLE_DATA, AVAILABLE_VERSIONS } from './data/bibleData'
+import { Analytics } from '@vercel/analytics/react'
 
 const Home = lazy(() => import('./views/Home'))
 const Dashboard = lazy(() => import('./views/Dashboard'))
@@ -815,6 +816,7 @@ function App() {
           </div>
         </div>
       )}
+      <Analytics />
     </div>
   )
 }
